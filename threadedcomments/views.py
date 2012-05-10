@@ -1,4 +1,5 @@
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404, render_to_response
@@ -102,7 +103,7 @@ def free_comment(request, content_type=None, object_id=None, edit_id=None, paren
         new_comment.save()
         if model == ThreadedComment:
             if add_messages:
-                request.user.message_set.create(message="Your message has been posted successfully.")
+                messages.info(request, 'Your message has been posted successfully.')
         else:
             request.session['successful_data'] = {
                 'name' : form.cleaned_data['name'],
